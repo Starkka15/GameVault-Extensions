@@ -1,0 +1,9 @@
+{
+  "id": "RPGMaker",
+  "name": "RPG Maker",
+  "version": "1.0.0",
+  "api": 1,
+  "description": "Add RPG Maker games from your own folders and play them natively.",
+  "platform": "RPGMaker",
+  "database": "rpgmaker.db"
+}

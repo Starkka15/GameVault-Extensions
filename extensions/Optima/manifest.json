@@ -1,0 +1,9 @@
+{
+  "id": "Optima",
+  "name": "Ubisoft Connect",
+  "version": "1.0.0",
+  "api": 1,
+  "description": "Your Ubisoft library, downloaded by Optima and launched through Ubisoft Connect.",
+  "platform": "Optima",
+  "database": "optima.db"
+}

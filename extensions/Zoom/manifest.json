@@ -1,0 +1,9 @@
+{
+  "id": "Zoom",
+  "name": "ZOOM Platform",
+  "version": "1.0.0",
+  "api": 1,
+  "description": "Your ZOOM Platform library.",
+  "platform": "Zoom",
+  "database": "zoom.db"
+}

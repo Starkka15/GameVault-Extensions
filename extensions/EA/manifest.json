@@ -1,0 +1,9 @@
+{
+  "id": "EA",
+  "name": "EA App",
+  "version": "1.0.0",
+  "api": 1,
+  "description": "Your EA library, installed and launched through Maxima.",
+  "platform": "EA",
+  "database": "ea.db"
+}

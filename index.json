@@ -1,0 +1,55 @@
+{
+  "api": 1,
+  "extensions": [
+    {
+      "id": "EA",
+      "name": "EA App",
+      "description": "Your EA library, installed and launched through Maxima.",
+      "version": "1.0.0",
+      "api": 1,
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/EA-v1.0.0/EA.zip",
+      "sha256": "c6c7ede03ce190692dc737f0ee89ffc37b4bc089a01fb67e9008836fa54c9f4d",
+      "size": 24550
+    },
+    {
+      "id": "Itchio",
+      "name": "itch.io",
+      "description": "Your itch.io purchases and collections.",
+      "version": "1.0.0",
+      "api": 1,
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Itchio-v1.0.0/Itchio.zip",
+      "sha256": "1614e19a5eda81fd5f406e8fffa54a2532971291935992cbe229ecc8ed6328b6",
+      "size": 25017
+    },
+    {
+      "id": "Optima",
+      "name": "Ubisoft Connect",
+      "description": "Your Ubisoft library, downloaded by Optima and launched through Ubisoft Connect.",
+      "version": "1.0.0",
+      "api": 1,
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Optima-v1.0.0/Optima.zip",
+      "sha256": "4fd50bcf76b1ce223145483c628ec9b6d1a21f006b29a59e5b1e06954e5e19ef",
+      "size": 20738
+    },
+    {
+      "id": "RPGMaker",
+      "name": "RPG Maker",
+      "description": "Add RPG Maker games from your own folders and play them natively.",
+      "version": "1.0.0",
+      "api": 1,
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/RPGMaker-v1.0.0/RPGMaker.zip",
+      "sha256": "9e4c15daa7aef120d8db676158ccfc6843bac6dccff4dca1b60a7b79af240852",
+      "size": 24908
+    },
+    {
+      "id": "Zoom",
+      "name": "ZOOM Platform",
+      "description": "Your ZOOM Platform library.",
+      "version": "1.0.0",
+      "api": 1,
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Zoom-v1.0.0/Zoom.zip",
+      "sha256": "09bd74ef15d1337b2f2ac4bde90469efca28f6548cb106cf07d2cfb8f69dc897",
+      "size": 24158
+    }
+  ]
+}

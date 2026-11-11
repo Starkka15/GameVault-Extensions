@@ -1,0 +1,12 @@
+{
+  "id": "Itchio",
+  "name": "itch.io",
+  "version": "1.0.0",
+  "api": 1,
+  "description": "Your itch.io purchases and collections.",
+  "platform": "Itchio",
+  "database": "itchio.db",
+  "owns": [
+    "ItchioCollections"
+  ]
+}
