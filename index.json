@@ -25,11 +25,11 @@
       "id": "Optima",
       "name": "Ubisoft Connect",
       "description": "Your Ubisoft library, downloaded by Optima and launched through Ubisoft Connect.",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "api": 1,
-      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Optima-v1.0.1/Optima.zip",
-      "sha256": "d117341adff5f2545fce07c9e109404d5d827a04915ad9454749535706eb9c08",
-      "size": 20768
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Optima-v1.1.0/Optima.zip",
+      "sha256": "385b4818aa5ab520d0eb265c7e2fccd7880d493ccddef0b664aebbc49eec9e06",
+      "size": 19542
     },
     {
       "id": "RPGMaker",

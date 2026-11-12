@@ -4,9 +4,9 @@ export OPTIMA_EXT_DIR
 # Steam/GameVault invokes this as:  optima-settings-launcher.sh <product_id>
 #
 # Runs the game's settings/config application (resolution, graphics, etc.) via
-# `optima-cli settings <product_id>`, which auto-detects the settings exe, deploys
-# the EAX shim, seeds the game's install-path registry key, and runs it under the
-# SAME umu/Proton prefix optima-cli uses for the game itself — so whatever the
+# `optima-cli settings <product_id>`, which auto-detects the settings exe, adds
+# the EAX audio fix, seeds the game's install-path registry key, and runs it in
+# the SAME Connect prefix the game itself runs in — so whatever the
 # player changes here is what the game reads on launch. Runs NATIVELY
 # (Compatibility=false); optima-cli does all the Proton work, so we do NOT want
 # Steam to wrap us in a second Proton.

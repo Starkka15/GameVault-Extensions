@@ -41,10 +41,6 @@ class OptimaArgs(GameSet.GenericArgs):
             '--download-game', help='Download a product by id')
         self.parser.add_argument(
             '--install-dir', help='Install directory for downloads')
-        self.parser.add_argument(
-            '--get-profile', help='Get the Ubisoft account form (IniEditor)', action='store_true')
-        self.parser.add_argument(
-            '--save-profile', help='Save the Ubisoft account form (reads JSON on stdin)', action='store_true')
 
     def parseArgs(self):
         super().parseArgs()
@@ -83,11 +79,6 @@ class OptimaArgs(GameSet.GenericArgs):
             if self.args.get_game_size:
                 print(self.gameSet.get_game_size(
                     self.args.get_game_size[0], self.args.get_game_size[1]))
-            if self.args.get_profile:
-                print(self.gameSet.get_profile())
-            if self.args.save_profile:
-                raw = sys.stdin.read()
-                print(self.gameSet.save_profile(raw))
             if not any(vars(self.args).values()):
                 self.parser.print_help()
         except optima.CmdException as e:

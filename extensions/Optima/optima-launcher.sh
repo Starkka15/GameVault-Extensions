@@ -3,10 +3,10 @@ OPTIMA_EXT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 export OPTIMA_EXT_DIR
 # Steam invokes this as:  optima-launcher.sh <product_id>
 #
-# The game is launched through `optima-cli launch <product_id>`, which writes the
-# Uplay.toml/Uplay.ini, deploys the Uplay R1 DRM shim into the game folder, seeds
-# the Ubisoft install registry + any shipped .reg, and runs the game exe under
-# its OWN umu/Proton runtime. The Steam shortcut runs this script NATIVELY
+# The game is launched through `optima-cli launch <product_id>`, which registers
+# the install with the official Ubisoft Connect client (its own Proton prefix,
+# install registry + any shipped .reg) and has Connect start the game. Connect
+# does sign-in, ownership and DRM; optima-cli stays until the game exits. The Steam shortcut runs this script NATIVELY
 # (Compatibility=false) — optima-cli does all the Proton work itself, so we do
 # NOT want Steam to wrap us in a second Proton.
 export DECKY_PLUGIN_RUNTIME_DIR="${HOME}/homebrew/data/GameVault"
@@ -70,6 +70,12 @@ fi
 GAME_DIR=$("$OPTIMACONF" --get-game-dir "$ID" --dbfile "$DBFILE" 2>/dev/null | tail -1)
 
 echo "[$(date)] launching product '${ID}' via optima-cli (args: ${ARGS}, dir: ${GAME_DIR})" >> "$LOG"
+
+# First launch after upgrading (or without signing in first): install Connect with
+# a progress window rather than a blank screen. Connect asks for its own sign-in
+# when it starts, then carries on to the game.
+source "${OPTIMA_EXT_DIR}/connect-setup.sh"
+optima_connect_setup "$LOG"
 
 if [[ -n "${GAME_DIR}" && -d "${GAME_DIR}" ]]; then
     exec "$OPTIMA_CMD" launch "$ID" --path "${GAME_DIR}" >> "$LOG" 2>&1

@@ -13,9 +13,9 @@ DBFILE="${DECKY_PLUGIN_RUNTIME_DIR}/optima.db"
 
 export OPTIMA_CMD="${HOME}/.local/bin/optima-cli"
 export NO_COLOR=1
-# The Ubisoft Uplay R1 emu inside optima-cli is fed the account profile; the game
-# runs fully offline for single-player. Nothing to skip/bootstrap here — optima-cli
-# stands up its own Proton prefix (reusing maxima's umu/Proton bundle if present).
+# optima-cli launches games through the official Ubisoft Connect client, which it
+# installs into its own Proton prefix (~/.local/share/optima/connect-prefix).
+OPTIMA_CONNECT_EXE="${HOME}/.local/share/optima/connect-prefix/drive_c/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/UbisoftConnect.exe"
 
 if [[ -f "${DECKY_PLUGIN_RUNTIME_DIR}/conf_schemas/optimatabconfig.json" ]]; then
     TEMP="${DECKY_PLUGIN_RUNTIME_DIR}/conf_schemas/optimatabconfig.json"

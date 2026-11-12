@@ -15,6 +15,12 @@ installed, updated and removed from **About → Extensions** inside GameVault.
 Removing an extension keeps its login, library and downloaded games on the
 device; installing it again picks up where it left off.
 
+**Ubisoft (Optima):** Login opens Ubisoft's real login page in Steam's browser,
+then signs you in to the official Ubisoft Connect client, which launches the
+games. If you log out of Optima, also sign out of Ubisoft in Steam's browser if
+you want to change accounts later; otherwise the next Login signs the same
+account straight back in.
+
 ## Layout
 
 ```

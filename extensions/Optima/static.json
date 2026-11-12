@@ -103,26 +103,6 @@
       ]
     }
   },
-  "optima-profile-actions": {
-    "Type": "ActionSet",
-    "Content": {
-      "SetName": "OptimaProfileEditor",
-      "Actions": [
-        {
-          "Id": "GetContent",
-          "Title": "Get the Ubisoft account form",
-          "Type": "IniEditor",
-          "Command": "./scripts/gamevault.sh Optima getprofile"
-        },
-        {
-          "Id": "SaveContent",
-          "Title": "Save the Ubisoft account form",
-          "Type": "IniEditor",
-          "Command": "./scripts/gamevault.sh Optima saveprofile"
-        }
-      ]
-    }
-  },
   "optima-game-script-actions": {
     "Type": "ScriptSet",
     "Content": {
@@ -279,12 +259,6 @@
           "Title": "Get login status",
           "Type": "Init",
           "Command": "./scripts/get-json.py optima-games-login-actions"
-        },
-        {
-          "Id": "GetProfileActions",
-          "Title": "Get the Ubisoft account form actions",
-          "Type": "Init",
-          "Command": "./scripts/get-json.py optima-profile-actions"
         },
         {
           "Id": "GetLaunchOptions",

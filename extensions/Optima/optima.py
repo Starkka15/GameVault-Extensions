@@ -11,12 +11,18 @@ import GamesDb
 from datetime import datetime, timedelta
 
 
+# GameVault's login panel reads "Logged in as <Username>", so the logged-out
+# status carries the account-switching note. Login reads the session from
+# Ubisoft's page in Steam's browser, which stays signed in after a Logout here.
+LOGGED_OUT_NOTE = "no one (to switch accounts, sign out of Ubisoft in Steam's browser first)"
+
+
 class CmdException(Exception):
     pass
 
 
 class Optima(GamesDb.GamesDb):
-    """Ubisoft Connect library backed by optima-cli (ownership + Uplay R1 emu).
+    """Ubisoft Connect library backed by optima-cli (ownership + downloads; Connect launches).
 
     Games are keyed by their numeric Ubisoft product id, which is used as the
     DB ShortName (EA used a slug; Ubisoft has no slug, just the product id).
@@ -173,7 +179,7 @@ class Optima(GamesDb.GamesDb):
     def get_lauch_options(self, game_id, steam_command, name, offline=False):
         # The Steam shortcut runs optima-launcher.sh NATIVELY (Compatibility=False):
         # the launcher hands the game to `optima-cli launch <product_id>`, which
-        # does its OWN umu/Proton work (Uplay R1 shim + prefix). We must NOT let
+        # does its OWN umu/Proton work (through Ubisoft Connect). We must NOT let
         # Steam wrap us in a second Proton — Exe=the launcher, Options=the id.
         launcher = os.environ['LAUNCHER']
         script_path = os.path.expanduser(launcher)
@@ -259,7 +265,7 @@ class Optima(GamesDb.GamesDb):
                 value = json.dumps({'Type': 'LoginStatus', 'Content': {'Username': username, 'LoggedIn': True}})
             else:
                 # Dead session — present as logged out so the sign-in (renew) button appears.
-                value = json.dumps({'Type': 'LoginStatus', 'Content': {'Username': '', 'LoggedIn': False}})
+                value = json.dumps({'Type': 'LoginStatus', 'Content': {'Username': LOGGED_OUT_NOTE, 'LoggedIn': False}})
             # Short cache so a dying ticket is re-checked soon (was 1h — that hid
             # a just-expired session for an hour).
             _ = saw_live_check
@@ -270,7 +276,7 @@ class Optima(GamesDb.GamesDb):
                 print(f"Error adding cache: {e}", file=sys.stderr)
             return value
         else:
-            value = json.dumps({'Type': 'LoginStatus', 'Content': {'Username': '', 'LoggedIn': False}})
+            value = json.dumps({'Type': 'LoginStatus', 'Content': {'Username': LOGGED_OUT_NOTE, 'LoggedIn': False}})
 
         timeout = datetime.now() + timedelta(hours=1)
         try:
@@ -278,81 +284,6 @@ class Optima(GamesDb.GamesDb):
         except Exception as e:
             print(f"Error adding cache: {e}", file=sys.stderr)
         return value
-
-    # ---- account profile form (email / username / password) ---------------
-
-    def _current_profile(self):
-        """Read the emu profile (email/username) from `optima-cli profile`.
-        Password is never echoed back (masked), so it's left blank in the form."""
-        email, username = "", ""
-        try:
-            output = self.execute_shell(f"{self.optima_cmd} profile")
-            for line in output.split('\n'):
-                m = re.match(r'\s*email:\s*(.+)$', line)
-                if m and not m.group(1).strip().startswith('(unset'):
-                    email = m.group(1).strip()
-                m = re.match(r'\s*username:\s*(.+)$', line)
-                if m and not m.group(1).strip().startswith('(unset'):
-                    username = m.group(1).strip()
-        except Exception as e:
-            print(f"profile read failed: {e}", file=sys.stderr)
-        return email, username
-
-    def _profile_schema_path(self):
-        runtime = os.environ.get('DECKY_PLUGIN_RUNTIME_DIR', '')
-        ext_dir = os.environ.get('OPTIMA_EXT_DIR') or os.path.dirname(os.path.abspath(__file__))
-        for base in (runtime, ext_dir):
-            if base:
-                p = os.path.join(base, 'conf_schemas', 'optimaprofile.json')
-                if os.path.exists(p):
-                    return p
-        return os.path.join(ext_dir, 'conf_schemas', 'optimaprofile.json')
-
-    def get_profile(self):
-        """Emit the account form (IniEditor) with current email/username filled in."""
-        with open(self._profile_schema_path()) as f:
-            schema = json.load(f)
-        email, username = self._current_profile()
-        for section in schema.get('Sections', []):
-            for opt in section.get('Options', []):
-                if opt.get('Key') == 'Email':
-                    opt['Value'] = email
-                    opt['DefaultValue'] = email
-                elif opt.get('Key') == 'Username':
-                    opt['Value'] = username
-                    opt['DefaultValue'] = username
-                elif opt.get('Key') == 'Password':
-                    opt['Value'] = ""
-                    opt['DefaultValue'] = ""
-        return json.dumps({'Type': 'IniContent', 'Content': schema})
-
-    def save_profile(self, raw_json):
-        """Parse the submitted account form and store it via `optima-cli profile`."""
-        try:
-            data = json.loads(raw_json)
-        except Exception as e:
-            return json.dumps({'Type': 'Error', 'Content': {'Message': f'Bad profile JSON: {e}'}})
-
-        vals = {}
-        for section in data.get('Sections', []):
-            for opt in section.get('Options', []):
-                vals[opt.get('Key')] = opt.get('Value', '')
-
-        cmd = [self.optima_cmd, 'profile']
-        # Email/username always applied (blank clears them, which is intended if
-        # the user cleared the field). Password only applied when non-empty so a
-        # blank field doesn't wipe an existing stored password.
-        cmd += ['--email', vals.get('Email', '')]
-        cmd += ['--username', vals.get('Username', '')]
-        if vals.get('Password', ''):
-            cmd += ['--password', vals['Password']]
-        try:
-            env = os.environ.copy()
-            env['NO_COLOR'] = '1'
-            subprocess.run(cmd, check=True, capture_output=True, env=env)
-        except Exception as e:
-            return json.dumps({'Type': 'Error', 'Content': {'Message': f'Failed to save profile: {e}'}})
-        return json.dumps({'Type': 'Success', 'Content': {'Message': 'Ubisoft account saved'}})
 
     # ---- install progress -------------------------------------------------
 

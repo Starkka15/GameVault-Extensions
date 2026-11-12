@@ -2,10 +2,8 @@
 OPTIMA_EXT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 export OPTIMA_EXT_DIR
 
-# Register custom actions with the gamevault.sh allowlist. `getprofile`/
-# `saveprofile` drive the Uplay account form (email/username/password); the rest
-# are the standard store actions.
-ACTIONS+=("update-umu-id" "getprofile" "saveprofile")
+# Register custom actions with the gamevault.sh allowlist.
+ACTIONS+=("update-umu-id")
 
 # Register Optima (Ubisoft Connect) as a platform with gamevault.sh
 PLATFORMS+=("Optima")
@@ -141,9 +139,9 @@ function Optima_loginstatus(){
     echo $TEMP
 }
 
-# Browser login: hands login.sh to Steam so it runs in a graphical session where
-# optima-cli can open the Ubisoft WebAuth page (localhost.ubisoft.com). That flow
-# captures the session ticket AND the email/username/password profile in one go.
+# Login: hands login.sh to Steam so it runs in a graphical session. login.sh signs
+# optima-cli in (Ubisoft's real login page in Steam's browser, for the library and
+# downloads) and then signs in to the official Ubisoft Connect client (launch/DRM).
 function Optima_login(){
     get_steam_env
     launchoptions "${OPTIMA_EXT_DIR}/login.sh" "" "${DECKY_PLUGIN_LOG_DIR}" "Ubisoft Connect Login"
@@ -158,23 +156,12 @@ function Optima_logout(){
     Optima_loginstatus --flush-cache
 }
 
-# Renew the session ticket. WebAuth login stores no rememberMe, so a dead ticket
-# can only be renewed by re-running the browser flow — but the browser is still
-# signed into Ubisoft (cookies persist), so the SDK grabs a fresh ticket without
-# re-typing anything. Same launcher as login; the button is just labelled Renew.
+# Renew the session. optima-cli renews it silently with the rememberMe ticket; if
+# that has died too, re-running the login picks up Steam's browser, which is still
+# signed in to Ubisoft, without re-typing anything. Same launcher as login.
 function Optima_renew(){
     get_steam_env
     launchoptions "${OPTIMA_EXT_DIR}/login.sh" "" "${DECKY_PLUGIN_LOG_DIR}" "Renew Ubisoft Ticket"
-}
-
-# Account form (email / username / password) → the Uplay player profile the emu
-# feeds each game. IniEditor GetContent/SaveContent, handled in Python.
-function Optima_getprofile(){
-    TEMP=$($OPTIMACONF --get-profile --dbfile $DBFILE)
-    echo $TEMP
-}
-function Optima_saveprofile(){
-    cat | $OPTIMACONF --save-profile --dbfile $DBFILE
 }
 
 function Optima_update-umu-id(){
@@ -197,9 +184,8 @@ function Optima_run-exe(){
 }
 
 function Optima_settings(){
-    # Launch the game's settings/config app (resolution, graphics) natively via
-    # optima-cli, which deploys the EAX shim + install-path registry key and runs
-    # it in the same prefix as the game. $1 = steam id (unused), $2 = product id.
+    # Launch the game's settings/config app (resolution, graphics) via optima-cli,
+    # which runs it in the Connect prefix the game uses (EAX audio fix included).
     get_steam_env
     # Frontend passes: $1=product id (ShortName), $2=steam id, $3=game path.
     # (NOT $2 — that's the steam app id; using it resolved optima/<steamid> which
