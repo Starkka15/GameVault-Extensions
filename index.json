@@ -15,41 +15,41 @@
       "id": "Itchio",
       "name": "itch.io",
       "description": "Your itch.io purchases and collections.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "api": 1,
-      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Itchio-v1.0.0/Itchio.zip",
-      "sha256": "1614e19a5eda81fd5f406e8fffa54a2532971291935992cbe229ecc8ed6328b6",
-      "size": 25017
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Itchio-v1.0.1/Itchio.zip",
+      "sha256": "06ae4a5715f94e9888766fb5e7c1ad3622a07c9d0cd280371640c8c52a9077d2",
+      "size": 25034
     },
     {
       "id": "Optima",
       "name": "Ubisoft Connect",
       "description": "Your Ubisoft library, downloaded by Optima and launched through Ubisoft Connect.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "api": 1,
-      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Optima-v1.0.0/Optima.zip",
-      "sha256": "4fd50bcf76b1ce223145483c628ec9b6d1a21f006b29a59e5b1e06954e5e19ef",
-      "size": 20738
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Optima-v1.0.1/Optima.zip",
+      "sha256": "d117341adff5f2545fce07c9e109404d5d827a04915ad9454749535706eb9c08",
+      "size": 20768
     },
     {
       "id": "RPGMaker",
       "name": "RPG Maker",
       "description": "Add RPG Maker games from your own folders and play them natively.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "api": 1,
-      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/RPGMaker-v1.0.0/RPGMaker.zip",
-      "sha256": "9e4c15daa7aef120d8db676158ccfc6843bac6dccff4dca1b60a7b79af240852",
-      "size": 24908
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/RPGMaker-v1.0.1/RPGMaker.zip",
+      "sha256": "8df46c6b5c246453fb42ad6a1544c07d5cc3cb58fdb39c100f75798718c570ab",
+      "size": 25435
     },
     {
       "id": "Zoom",
       "name": "ZOOM Platform",
       "description": "Your ZOOM Platform library.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "api": 1,
-      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Zoom-v1.0.0/Zoom.zip",
-      "sha256": "09bd74ef15d1337b2f2ac4bde90469efca28f6548cb106cf07d2cfb8f69dc897",
-      "size": 24158
+      "url": "https://github.com/Starkka15/GameVault-Extensions/releases/download/Zoom-v1.0.1/Zoom.zip",
+      "sha256": "531c60b6210355f2a83d3ad5f3122e22283957b0ad3be079d5c88a6e1b2694be",
+      "size": 24319
     }
   ]
 }
