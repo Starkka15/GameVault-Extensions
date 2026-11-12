@@ -1,7 +1,7 @@
 {
   "id": "RPGMaker",
   "name": "RPG Maker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "api": 1,
   "description": "Add RPG Maker games from your own folders and play them natively.",
   "platform": "RPGMaker",

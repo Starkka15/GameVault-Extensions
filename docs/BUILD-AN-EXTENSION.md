@@ -98,6 +98,17 @@ new path. Add `"owns": ["SomeFolder"]` for extra folders your store writes next
 to itself under `scripts/Extensions/` (itch.io's collections), so removing the
 extension removes them too.
 
+**Remove → Everything** runs your `Uninstall` for every game with a shortcut or
+an `InstallPath`, then your `purge` if you define one (add `"purge"` to `ACTIONS`;
+use it for whatever `Uninstall` leaves behind, such as download caches or a local
+library's folders, and print JSON), then your `logout`, then deletes the
+extension and its data:
+your database (with `-wal`/`-shm`), `<db name>_overrides.sh`,
+`conf_schemas/<db name>tabconfig.json`, and anything listed in
+`"profile": ["my_api_key", ...]` (paths relative to the runtime dir). So
+`Uninstall` must print JSON (`Type` other than `Error`) on success, and `logout`
+must clear whatever login your store keeps outside GameVault.
+
 **The folder is installed under the runtime data dir, not the plugin dir.** Never
 build a path from `DECKY_PLUGIN_DIR` to your own files. Every script starts by
 finding its own folder, which works both when `gamevault.sh` sources it and when

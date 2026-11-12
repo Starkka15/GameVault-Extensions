@@ -3,7 +3,7 @@ ZOOM_EXT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 export ZOOM_EXT_DIR
 
 # Register extra actions with the gamevault.sh script
-ACTIONS+=("login-launch-options" "check-update")
+ACTIONS+=("login-launch-options" "check-update" "purge")
 
 # Register Zoom as a platform with the gamevault.sh script
 PLATFORMS+=("Zoom")
@@ -201,4 +201,11 @@ function Zoom_gettabconfig() {
 
 function Zoom_savetabconfig() {
     cat | $ZOOMCONF --parsejson "${1}" --dbfile "$DBFILE" --platform Proton --fork "" --version ""
+}
+
+# Remove -> Everything: Uninstall deletes each game, but not the installer
+# downloads zoom.py stages under <install dir>/.zoom-downloads.
+function Zoom_purge() {
+    rm -rf "${INSTALL_DIR%/}/.zoom-downloads"
+    echo '{"Type": "Success", "Content": {"Message": "download cache removed"}}'
 }

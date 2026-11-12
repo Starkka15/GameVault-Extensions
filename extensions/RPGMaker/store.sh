@@ -4,6 +4,7 @@ export RPGMAKER_EXT_DIR
 
 # Register RPGMaker as a platform with the gamevault.sh script
 PLATFORMS+=("RPGMaker")
+ACTIONS+=("purge")
 
 # only source the settings if the platform is RPGMaker - avoids conflicts with other plugins
 if [[ "${PLATFORM}" == "RPGMaker" ]]; then
@@ -128,4 +129,35 @@ function RPGMaker_savetabconfig(){
         echo "$SGDB_KEY" > "${DECKY_PLUGIN_RUNTIME_DIR}/steamgriddb_api_key"
     fi
     echo "{\"Type\": \"Success\", \"Content\": {\"Message\": \"RPG Maker tab config saved\"}}"
+}
+
+# Remove -> Everything: after Uninstall has dropped the shortcuts, delete the game
+# folders themselves (never the drop folder, the home dir, or anything above them).
+function RPGMaker_purge(){
+    python3 - "$DBFILE" "${INSTALL_DIR}" <<'PY'
+import json, os, shutil, sqlite3, sys
+db, root = sys.argv[1], os.path.realpath(sys.argv[2])
+home = os.path.realpath(os.path.expanduser("~"))
+rows = []
+if os.path.isfile(db):
+    conn = sqlite3.connect(db)
+    rows = conn.execute("SELECT RootFolder FROM Game").fetchall()
+    conn.close()
+removed, errors = 0, []
+for (d,) in rows:
+    if not d:
+        continue
+    p = os.path.realpath(d)
+    if p in ("/", home, root) or root.startswith(p + os.sep) or home.startswith(p + os.sep):
+        continue
+    if not os.path.isdir(p):
+        continue
+    try:
+        shutil.rmtree(p)
+        removed += 1
+    except OSError as e:
+        errors.append(f"{d}: {e}")
+msg = f"removed {removed} game folder(s)" + ("; " + "; ".join(errors[:3]) if errors else "")
+print(json.dumps({"Type": "Error" if errors else "Success", "Content": {"Message": msg}}))
+PY
 }

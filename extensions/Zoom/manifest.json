@@ -1,9 +1,12 @@
 {
   "id": "Zoom",
   "name": "ZOOM Platform",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "api": 1,
   "description": "Your ZOOM Platform library.",
   "platform": "Zoom",
-  "database": "zoom.db"
+  "database": "zoom.db",
+  "profile": [
+    "zoom-cookies.txt"
+  ]
 }
